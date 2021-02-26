@@ -4,7 +4,14 @@
     "description": "Display a counter for your unread news.",
     "version": "1.0",
     "options_page": "options.html",
-    "permissions": ["storage"],
+    "permissions": [
+        "storage",
+        "alarms",
+        "webRequest"
+    ],
+    "host_permissions": [
+        "https://*/"
+    ],
     "action": {
         "default_icon": {
             "16": "/images/icon16.png",
@@ -12,5 +19,8 @@
             "48": "/images/icon48.png",
             "128": "/images/icon128.png"
         }
+    },
+    "background": {
+        "service_worker": "background.js"
     }
 }

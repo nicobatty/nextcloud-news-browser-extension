@@ -1,5 +1,23 @@
 <html>
     <body>
-        <div>Hello World!</div>
+        <h1>Your Nextcloud Configuration</h1>
+        <form id="configuration">
+            <div>
+                <label for="host">Host:</label>
+                <input type="text" id="host" name="host"/>
+            </div>
+            <div>
+                <label for="username">Username:</label>
+                <input type="text" id="username" name="username"/>
+            </div>
+            <div>
+                <label for="password">Password:</label>
+                <input type="password" id="password" name="password"/>
+            </div>
+            <div>
+                <input type="submit" value="Save">
+            </div>
+        </form>
     </body>
+    <script src="options.js"></script>
 </html>
