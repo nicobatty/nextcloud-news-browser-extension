@@ -1,3 +1,7 @@
+const color = '#1baefe'; // Nextcloud Color
+
+chrome.action.setBadgeBackgroundColor({color});
+
 chrome.storage.local.get('configuration', (data) => {
     const config = data.configuration;
     updateUnreadCount(config);
