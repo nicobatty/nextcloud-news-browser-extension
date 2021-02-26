@@ -26,7 +26,7 @@ function fetchUnreadCount(config, callback) {
 }
 
 function updateUnreadCount(config) {
-    fetchUnreadCount(config, (count) => chrome.action.setBadgeText({text: count.toString()}));
+    fetchUnreadCount(config, (count) => chrome.action.setBadgeText({text: count > 0 ? count.toString() : ''}));
 }
 
 function setupAlarm(config) {
