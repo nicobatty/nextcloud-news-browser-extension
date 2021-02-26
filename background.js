@@ -9,7 +9,7 @@ chrome.storage.local.get('configuration', (data) => {
 });
 
 function combineUnreadCount(data) {
-    return data.feeds.reduce((a, b) => a.unreadCount + b.unreadCount);
+    return data.feeds.map(x => x.unreadCount).reduce((a, b) => a + b);
 }
 
 function fetchUnreadCount(config, callback) {
