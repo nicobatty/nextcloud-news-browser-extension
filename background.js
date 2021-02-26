@@ -30,7 +30,7 @@ function updateUnreadCount(config) {
 }
 
 function setupAlarm(config) {
-    chrome.alarms.create({periodInMinutes: 5.0});
+    chrome.alarms.create({periodInMinutes: 1.0});
 
     chrome.alarms.onAlarm.addListener(() => {
         updateUnreadCount(config);
