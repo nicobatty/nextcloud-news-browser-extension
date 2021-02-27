@@ -24,7 +24,11 @@ function updateBadgeUnreadCount(count) {
 }
 
 function listenForWebCalls(config) {
-    chrome.webRequest.onBeforeRequest.addListener(function(details) {
+    listenForMultipleRead(config);
+}
+
+function listenForMultipleRead(config) {
+    chrome.webRequest.onBeforeRequest.addListener((details) => {
         postJson = arrayBufferToString(details.requestBody.raw[0].bytes);
         postObj = JSON.parse(postJson);
         addToCurrentUnreadCount(-postObj.itemIds.length);
@@ -44,7 +48,7 @@ function combineUnreadCount(data) {
 function arrayBufferToString(buffer) {
     var arr = new Uint8Array(buffer);
     var str = String.fromCharCode.apply(String, arr);
-    if(/[\u0080-\uffff]/.test(str)){
+    if (/[\u0080-\uffff]/.test(str)) {
         throw new Error("this string seems to contain (still encoded) multibytes");
     }
     return str;
