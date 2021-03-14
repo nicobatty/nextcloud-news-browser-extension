@@ -4,32 +4,32 @@ chrome.action.setBadgeBackgroundColor({color});
 
 chrome.storage.onChanged.addListener((changes) => {
     if (changes.unreadCount) {
-        updateBadgeUnreadCount(changes.unreadCount.newValue);
+        setBadgeUnreadCount(changes.unreadCount.newValue);
     }
 });
 
+chrome.runtime.onStartup.addListener(() => {
+    chrome.storage.local.get('configuration', data => {
+        const config = data.configuration;
+        updateUnreadCount(config);
+        setupAlarm(config);
+    });
+});
+
 chrome.runtime.onMessage.addListener(request => {
-    updateBadgeUnreadCount(request.count);
+    setUnreadCount(request.count);
 });
 
-chrome.storage.local.get('unreadCount', (data) => {
-    updateBadgeUnreadCount(data.unreadCount);
+chrome.storage.local.get('unreadCount', data => {
+    setBadgeUnreadCount(data.unreadCount);
 });
 
-chrome.storage.local.get('configuration', (data) => {
-    const config = data.configuration;
-    updateUnreadCount(config);
-    setupAlarm(config);
-});
-
-function updateBadgeUnreadCount(count) {
-    chrome.action.setBadgeText({text: count > 0 ? count.toString() : ''});
+function setUnreadCount(count) {
+    chrome.storage.local.set({'unreadCount': count});
 }
 
-function addToCurrentUnreadCount(diff) {
-    chrome.storage.local.get('unreadCount', (data) => {
-        chrome.storage.local.set({'unreadCount': data.unreadCount + diff});
-    });
+function setBadgeUnreadCount(count) {
+    chrome.action.setBadgeText({text: count > 0 ? count.toString() : ''});
 }
 
 function combineUnreadCount(data) {
@@ -52,7 +52,7 @@ async function fetchUnreadCount(config) {
 
 async function updateUnreadCount(config) {
     count = await fetchUnreadCount(config);
-    chrome.storage.local.set({'unreadCount': count});
+    setUnreadCount(count);
 }
 
 function setupAlarm(config) {
