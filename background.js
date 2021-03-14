@@ -54,7 +54,7 @@ function arrayBufferToString(buffer) {
     return str;
 }
 
-function fetchUnreadCount(config, callback) {
+async function fetchUnreadCount(config) {
     const request = new Request(config.host + 'apps/news/api/v1-2/feeds', {
         headers: {
             'Authorization': 'Basic ' + btoa(config.username + ':' + config.password),
@@ -62,13 +62,15 @@ function fetchUnreadCount(config, callback) {
         }
     });
 
-    fetch(request)
-        .then(response => response.json())
-        .then(data => callback(combineUnreadCount(data)));
+    response = await fetch(request);
+    data = await response.json();
+
+    return combineUnreadCount(data);
 }
 
-function updateUnreadCount(config) {
-    fetchUnreadCount(config, (count) => chrome.storage.local.set({'unreadCount': count}));
+async function updateUnreadCount(config) {
+    count = await fetchUnreadCount(config);
+    chrome.storage.local.set({'unreadCount': count});
 }
 
 function setupAlarm(config) {
