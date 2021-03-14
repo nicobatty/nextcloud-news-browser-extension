@@ -9,7 +9,7 @@
         "alarms"
     ],
     "host_permissions": [
-        "https://*/"
+        "https://*/apps/news/api/v1-2/feeds"
     ],
     "action": {
         "default_icon": {
@@ -24,7 +24,7 @@
     },
     "content_scripts": [
         {
-          "matches": ["https://*/*"],
+          "matches": ["https://*/apps/news/*"],
           "js": ["contentScript.js"]
         }
     ]
